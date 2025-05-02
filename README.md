@@ -1,18 +1,23 @@
-# Identification of the Elevated Mixed Layer Using a Random Forest Classifier
+# Investigation of Blocking Regimes Using Self Organizing Maps (SOMs)
 
-Authors: Margo Andrews, Mackenzie Garrett, and Caitlin Roufa
+Authors: Anna Olsen and Emma Jilek
 
 ## I. Introduction and Background
 
-The central contiguous United States (CONUS) is one of the most favorable regions for severe convective storms (SCSs) worldwide (Brooks et al. 2003; Taszarek et al. 2021). The elevated mixed layer (EML) is a well-established contributor to the high SCS frequency, influencing storm initiation, intensity, and suppression. EMLs are elevated layers of steep lapse rates with high potential temperature, the bases of which often act as a capping inversion. EMLs begin as hot, dry, well-mixed planetary boundary layers in the high terrain of the desert southwest, northern Mexico, or the Rocky Mountains, and are subsequently advected downstream off the elevated terrain (Carlson and Ludlam 1968; Carlson et al. 1983; Lanicci and Warner 1991). EML frequency peaks just downstream of the high terrain in the warm season, with a maximum over the southern Great Plains and northeastern Mexico in spring, and a lesser, northward displaced maximum over the central and northern Great Plains in summer (Ribeiro and Bosart 2018; Li et al. 2020; Andrews et al. 2024). 
+Atmospheric blocking refers to persistent, quasi-stationary high-pressure systems that disrupt the typical westerly flow in midlatitudes (Rex 1950). Dynamically, these blocking regimes have been found to alter the typical propagation of Rossby waves and can cause the upper-tropospheric flow to become stagnant (Lupo and Smith 1995; Nakamura and Huang 2018). These systems often bring static weather conditions for days to weeks, and can lead to severe heatwaves, droughts, and flooding in some regions during the summer months (Chan et al. 2019). Although atmospheric blocking patterns have a large influence on regional climate variability and extremes, the phenomenon is not well studied in the Central US region, and much of the Northern Hemisphere blocking research is focused on the North Atlantic and North Pacific sectors. 
 
-The high frequency of EMLs over the central CONUS contributes to the relatively frequent overlap of necessary SCS ingredients—conditional instability, moisture, vertical wind shear, and a lifting mechanism (e.g., Johns and Doswell 1992). Typical synoptic patterns favoring EML formation in this region feature winds that veer with height, with moist, low-level southerly flow and southwesterly flow aloft (Lanicci and Warner 1991; Ribeiro and Bosart 2018). EMLs contribute to the development of conditional instability (commonly measured as convective available potential energy or CAPE) by introducing two characteristic environmental features to areas with already favorable conditions for deep, moist convection: 1) steep mid-level lapse rates; and 2) a capping inversion. The EML’s capping inversion inhibits or delays deep convection over a region, allowing solar heating to build CAPE over the mid-to-late afternoon without the dampening effects of excessive clouds or precipitation (Agard and Emanuel 2017). With more CAPE than there would be in the absence of the EML and its capping inversion, convection that does initiate may have stronger updrafts and a higher likelihood of being severe (Carlson and Ludlam 1968; Carlson et al. 1983; Graziano and Carlson 1987).
+In the Central U.S., blocking episodes are often associated with strong mid-tropospheric anticyclonic flow that suppresses convection, reduces cloud cover through subsidence, and contributes to elevated surface temperatures and prolonged dry spells due to radiative forcing under clear skies (Chan et al. 2019). Regions within our 23–50N and 105–87W domain are particularly vulnerable to the impacts of blocking events, especially during the warm season when soil moisture deficits and atmospheric feedbacks may act to amplify these heat extremes. Several historical droughts and heatwaves, such as those that occurred in 1980, 2012, and 2023, have been linked to persistent blocking patterns that redirect storm tracks and limit precipitation in the region (). Despite their high impact, the representation and predictability of blocks over North America remain challenging due to their nonlinear dynamics, sensitivity to upstream wave activity, and interaction with large-scale teleconnections like ENSO and the MJO (Henderson et al. 2016; Chen et al. 2022).
 
-etc. etc.
+In order to improve our understanding of the spatial and temporal structure of blocking in this region, we apply a machine learning technique using self-organizing maps (SOMs), which allows us to develop a framework that is objective for classifying atmospheric patterns based on their similarity. Recent work by Thomas et al. (2021)  used SOMs to develop a SOM-based blocking index (SOM-BI) to detect summer blocking events over Europe, and determined that the new index performed better when identifying blocked patterns compared to traditional indices. Their results highlight the potential for SOMs to detect persistent and more subtle features in the atmosphere which may be overlooked by the traditional indicies-- many of which use threshold-based methods. In this study, we use ERA5 reanalysis data and examine the 90-day June–July–August (JJA) periods for twelve anomalous summers (1940, 1954, 1956, 1980, 2002, 2003, 2006, 2007, 2011, 2012, 2020, and 2023) to identify and cluster blocking-like circulation features. By testing several SOM configurations and evaluating their performance, we aim to document the dominant blocking regimes and assess their frequency, structure, and potential relationship to regional drought and heatwave events.
 
 ## II. Data and Methods
 
-Data for this project were produced using the European Center for Medium-Range Weather Forecasts Reanalysis Version 5 (ERA5), which has a 0.25-degree grid and 137 vertical levels (Hersbach et al. 2020). Hybrid sigma-level variables include pressure (p), temperature (T), zonal and meridional winds (u, v), specific humidity (q), and geopotential (z). The EML algorithm, developed by Andrews et al. (2024), employs 3-hourly ERA5 data to identify EMLs from 1979-2021, using the following criteria at each grid point:
+Our data for this project was obtained from the European Center for Medium-Range Weather Forecasts Reanalysis Version 5 (ERA5), which provides global atmospheric fields at a 0.25° × 0.25° horizontal resolution. We utilized 6-hourly ERA5 data for the variables of 500 hPa geopotential height (z) and potential vorticity (PV), as these fields are frequently used in the identification and analysis of atmospheric blocking patterns (Pelly and Hoskins 2003, Nakamura and Huang 2018). Our spatial domain covers the Central US, bounded between 23°N–50°N latitude and 105°W–87°W longitude, a region where summertime blocking events have been associated with significant hydroclimatic impacts, including drought and heat waves (Hoerling et al. 2014, Liu et al. 2023).
+
+Our analysis focused on JJA periods for twelve years with known anomalous summer drought conditions: 1940, 1954, 1956, 1980, 2002, 2003, 2006, 2007, 2011, 2012, 2020, and 2023. These years were selected based on drought indices to serve as case studies for the evaluation of blocking event frequency and structure. Data preprocessing included temporal subsetting, spatial regridding, and normalization of the geopotential height and PVU fields to prepare them for SOM training.  The input fields were processed using Python libraries, including Xarray, Numpy, Pandas, MiniSom, Sklearn, Scipy, Matplotlib, and Cartopy, and then reshaped into 2D arrays so each field represented a spatial pattern across the spatialdomain.
+
+
+
 1.	MUCAPE > 0 J kg−1
 2.	ELR   8°C km−1 over a minimum depth of 200 hPa
 3.	EML base minimum of 1000 m AGL and below 500 hPa
@@ -48,47 +53,229 @@ etc. etc.
 
 We identified the following requirements for this project:
 
-| P01-01  | Label EML cases in a binary format – `calc_binary(data, dates)`   
+| JET01-01  | Load ERA5 Dataset 
 |---------|------------| 
 | Priority | High |
 | Sprint | 1 |
-| Assigned To | Margo and Cait |
-| User Story   | As developers, we need to provide the ML model with a binary dataset of EML and non-EML cases to train the model. |                                                                                                                                       | 
+| Assigned To | Emma |
+| User Story   | As developers, we need load data from NetCDF4 files to analyse ane preprocess necessary fields. |                                                                                                                                       | 
 | Requirements | |
-| | 1. Pandas will be used to read in a CSV file.|
-| | 2. Use ERA5 vertical profiles from May.|
-| | 3. The dataset has a binary variable that labels EMLs and non-EMLs.|
-| | 4. The Data uses criteria well established in previous literature to identify EMLs.|
+| | 1. Must load 500 hPa PV and Z500 data with correct units using Xarray.|
+| | 2. Must load 500 hPa PV and Z500 data with correct months using Xarray.|
+| | 3. Must load 500 hPa PV and Z500 data with the correct years using Xarray.|
 | Acceptance Criteria | |
-| | 1. Pandas successfully opens a data frame from the CSV file.|
-| | 2. Uses Panda's filtering to check that ERA5 data is only from May.|
-| | 3. Binary data set contains only 1s and 0s. 0's for no EML and 1's for presence of EML. |
-| | 4. The data has metadata that implies the identification of EMLs based on previous literature.|
+| | 1. Dataset opens without error using xarray.|
+| | 2. Required variables z, pv are in dataset with expected shapes.|
+| | 3. Dimensions include valid_time, latitude, longitude. |
+| | 4. Pressure level for both variables = 500 hPa. |
 | Unit Test | | 
 ```
-  # compare the label output by the EML algorithm to the manual label (0 for non-EML, 1 for EML)  
-  def_test_binary_labels():
-      input_vertical_profile = ds.sel(time='05-01-1994' , latitude=41.9 , longitude=88.7)
-      label = EML_algorithm(input_vertical_profile)
-      assert_equal(label, manual_label) 
+def test_dataset_opens():
+    assert isinstance(ds, xr.Dataset)
+
+def test_variable_presence():
+    assert 'pv' in ds.data_vars and 'z' in ds.data_vars
+
+def test_coordinate_dimensions():
+    for coord in ['valid_time', 'latitude', 'longitude']:
+        assert coord in ds.coords
+
+def test_pressure_level_value():
+    assert ds.pressure_level.values[0] == 500.0
 ```
 
 
-| P02-01  | Make a list of predictor variables  
+| JET02-01  | Convert units
 |---------|------------| 
 | Priority | High |
 | Sprint | 1 |
-| Assigned To | Margo, Mackenzie, and Cait |
-| User Story   | The developers must create a comprehensive list of predictor variables for our ML model, so that it can identify EMLs. |                                                                                                                                       | 
+| Assigned To | Anna |
+| User Story   | I want to convert geopotential to geopotential height and PV to PVU to work with standard units for variables. |                                                                                                                                       | 
 | Requirements | |
-| | 1. The model must use sigma-level data.|
-| | 2. Variables must be relevant to the EML.|
-| | 3. Calculate variables with ERA5 data set on Triton.|
+| | 1. Convert z to meters by dividing by gravity (9.80665).|
+| | 2. Convert pv to PVU by multiplying by 1e6.|
 | Acceptance Criteria | |
-| | 1. Use ERA5 data that explicitly implies the use of sigma-level data.|
-| | 2. Relevant variables are verified using well-established literature.|
-| | 3. Variables must be calculated using the ERA5 fields we have available (p, T, u, v, q, z). |
+| | 1. New variables z500 and pv_pvu have correct units.|
+| | 2. No NaN or infinite values present.|
 | Unit Test | | 
 ```
-  N/A
+def test_unit_conversion():
+    z500 = ds['z'] / 9.80665
+    pv_pvu = ds['pv'].squeeze() * 1e6
+    assert np.isfinite(z500.values).all()
+```
+
+
+| JET03-01  | Create engineered input features
+|---------|------------| 
+| Priority | High |
+| Sprint | 1 |
+| Assigned To | Anna |
+| User Story   | I want to extract PV mean and Z500 gradient, in line with literature, to input meaningful features into SOM. |                                                                                                                                       | 
+| Requirements | |
+| | 1. Calculate mean PV over lat/lon.|
+| | 2. Compute Z500 horizontal gradient magnitude.|
+| Acceptance Criteria | |
+| | 1. Output vectors are 1D arrays aligned with time.|
+| | 2. No missing values.|
+| Unit Test | | 
+```
+N/A
+```
+
+
+| JET04-01  | Normalize engineered input features
+|---------|------------| 
+| Priority | High |
+| Sprint | 1 |
+| Assigned To | Anna |
+| User Story   | I need to normalize the input features so that the SOM treats all inputs fairly regardless of units. |                                                                                                                                       | 
+| Requirements | |
+| | 1. Support both z-score and min-max normalization.|
+| | 2. Use standard deviation ratio to select the better method.|
+| Acceptance Criteria | |
+| | 1. Chosen method yields balanced input variances.|
+| | 2. Scaled input has zero mean and unit variance (z-score case).|
+| Unit Test | | 
+```
+def normalization_selection(pv_mean, z500_grad_mean):
+    # combine into matrix
+    X = np.stack([pv_mean, z500_grad_mean], axis=1)
+
+    # min-max scaling
+    min_val = np.min(X)
+    max_val = np.max(X)
+    scale_factor = 100.0 / (max_val - min_val)
+    X_minmax = X * scale_factor
+
+    # Z-score scaling
+    X_zscore = (X - np.mean(X, axis=0)) / np.std(X, axis=0)
+
+    # compare standard deviation ratios of scaled variables to find which method is more balanced (closer to 1)
+    std_ratio_minmax = np.std(X_minmax[:, 0]) / np.std(X_minmax[:, 1])
+    std_ratio_zscore = np.std(X_zscore[:, 0]) / np.std(X_zscore[:, 1])
+
+    # pick method where std ratio is closest to 1
+    if abs(std_ratio_minmax - 1) < abs(std_ratio_zscore - 1):
+        method_used = 'minmax'
+    else:
+        method_used = 'zscore'
+
+    return method_used
+```
+
+
+| JET05-01  | Train SOM models
+|---------|------------| 
+| Priority | High |
+| Sprint | 1 |
+| Assigned To | Anna |
+| User Story   | I want to train SOMs with different hyperparameters to select the most representative model for my data. |                                                                                                                                       | 
+| Requirements | |
+| | 1. Train SOMs with varied hyperparameters (x, y, sigma, learning_rate).|
+| | 2. Save quantization error (QE) and topographical error (TE) to compare.|
+| Acceptance Criteria | |
+| | 1. Best SOM has lowest QE and TE.|
+| | 2. Grid size and input length match.|
+| Unit Test | | 
+```
+N/A
+```
+
+
+| JET06-01  | Assign Best Matching Units (BMUs)
+|---------|------------| 
+| Priority | High |
+| Sprint | 1 |
+| Assigned To | Anna |
+| User Story   | I need to map the BMUs to assign each day to a SOM node. |                                                                                                                                       | 
+| Requirements | |
+| | 1. Use som.winner(x) to assign each time step to a BMU.|
+| | 2. Save quantization error (QE) and topographical error (TE) to compare.|
+| Acceptance Criteria | |
+| | 1. Length matches number of time steps.|
+| | 2. Output is a list of tuples.|
+| Unit Test | | 
+```
+N/A
+```
+
+
+| JET07-01  | Link SOM nodes to specific days
+|---------|------------| 
+| Priority | High |
+| Sprint | 1 |
+| Assigned To | Anna |
+| User Story   | As a climatologist, I need to associate BMUs with time to analyze temporal patterns. |                                                                                                                                       | 
+| Requirements | |
+| | 1. Create DataFrame with valid_time and bmu labels.|
+| | 2. Save quantization error (QE) and topographical error (TE) to compare.|
+| Acceptance Criteria | |
+| | 1. DataFrame rows match time steps.|
+| | 2. BMUs formatted as x_y.|
+| Unit Test | | 
+```
+def test_bmu_labeling():
+    labels = [f"{bmu[0]}_{bmu[1]}" for bmu in bmus]
+    assert all('_' in label for label in labels)
+```
+
+
+| JET08-01  | Count node frequencies
+|---------|------------| 
+| Priority | High |
+| Sprint | 1 |
+| Assigned To | Anna |
+| User Story   | I want to visualize SOM node activations, so that I can understand which patterns are dominant. |                                                                                                                                       | 
+| Requirements | |
+| | 1. Count BMUs and plot heatmap.|
+| | 2. Save quantization error (QE) and topographical error (TE) to compare.|
+| Acceptance Criteria | |
+| | 1. Frequency matrix matches SOM grid.|
+| | 2. Total count equals number of time steps.|
+| Unit Test | | 
+```
+def test_bmu_labeling():
+    labels = [f"{bmu[0]}_{bmu[1]}" for bmu in bmus]
+    assert all('_' in label for label in labels)
+```
+
+
+| JET09-01  | Count node frequencies
+|---------|------------| 
+| Priority | High |
+| Sprint | 1 |
+| Assigned To | Anna |
+| User Story   | I want to estimate a blocking likelihood for each SOM node, so that I can flag potential blocking regimes. |                                                                                                                                       | 
+| Requirements | |
+| | 1. Combine z-score-normalized PV and Z500 gradient into score.|
+| | 2. Select top 10% as blocking-prone.|
+| Acceptance Criteria | |
+| | 1. blocking_score exists in output.|
+| | 2. Returns expected number of blocked nodes.|
+| Unit Test | | 
+```
+def test_blocking_score_computation():
+    score = -mean_features_scaled["pv_mean"] - mean_features_scaled["z500_grad_mean"]
+    assert not np.any(np.isnan(score))
+```
+
+
+| JET10-01  | Count node frequencies
+|---------|------------| 
+| Priority | High |
+| Sprint | 1 |
+| Assigned To | Anna |
+| User Story   | I want to estimate a blocking likelihood for each SOM node, so that I can flag potential blocking regimes. |                                                                                                                                       | 
+| Requirements | |
+| | 1. Combine z-score-normalized PV and Z500 gradient into score.|
+| | 2. Select top 10% as blocking-prone.|
+| Acceptance Criteria | |
+| | 1. blocking_score exists in output.|
+| | 2. Returns expected number of blocked nodes.|
+| Unit Test | | 
+```
+def test_blocking_score_computation():
+    score = -mean_features_scaled["pv_mean"] - mean_features_scaled["z500_grad_mean"]
+    assert not np.any(np.isnan(score))
 ```
