@@ -1,1 +1,2 @@
 Place figures in this directory with the filename format ```figure_n.jpg```
+```domain.png```
