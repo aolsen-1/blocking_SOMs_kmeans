@@ -1,4 +1,4 @@
-# Investigation of Blocking Patterns Using Self Organizing Maps (SOMs)
+# Investigation of Blocking-Like Patterns Using Self-Organizing Maps (SOMs) and Kmeans Clustering
 
 Authors: Anna Olsen and Emma Jilek
 
