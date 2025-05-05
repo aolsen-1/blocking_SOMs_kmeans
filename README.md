@@ -180,15 +180,15 @@ The distribution of SOM node blocking scores is shown in Figure 21. SOM nodes wi
 > Figure 21. Distribution of SOM nodes by blocking score with 80% threshold line (red).
 
 ### SOM Node Temopral Assignments
-The temporal assignment of SOM nodes by year is depicted in Figure 22. Each grid cell shows how many days in a given year were classified into each SOM node. The red vertical lines highlight nodes identified as blocking-related. Several years, in particular 1940, 1980, and 2002, had a substantial number of days assigned to blocking nodes, and this aligns with the results of our bar chart in Figure ___ (frequencies across year).
+The temporal assignment of SOM nodes by year is depicted in Figure 22. Each grid cell shows how many days in a given year were classified into each SOM node. The red vertical lines highlight nodes identified as blocking-related. Several years, in particular 1940, 1980, and 2002, had a substantial number of days assigned to blocking nodes, and this aligns with the results of our bar chart in Figure 19 (frequencies across year).
 
 ![som_node_frequency_map](images/som_node_frequency_map.png)
 > Figure 22. SOM node frequency map with number of days assigned per node.
 > 
 ### Node Frequency and Dominant Patterns
 Figures 23 and 24 summarize the overall SOM node activity, where:
-1. Figure 23 shows the total frequency of each node across the dataset. Nodes 2_3 and 2_1 were most commonly assigned by the SOM model, indicating frequently occurring atmospheric flow patterns.
-2. Figure 24, a 2D heatmap of the SOM grid, shows us that the central SOM nodes were most dominant in the classification scheme, while corner nodes (especially 0_0 and 3_3) were less frequently used. This tells us that the SOM is able to represent both common and rare patterns in anomalously dry years.
+1. Figure 23 shows the total frequency of each node across the dataset. Nodes 1_2, 2_2, and 3_2 were most commonly assigned by the SOM model, indicating frequently occurring atmospheric flow patterns.
+2. Figure 24, a 2D heatmap of the SOM grid, shows us that the central SOM nodes were most dominant in the classification scheme, while corner nodes were less frequently used. This tells us that the SOM is able to represent both common and rare patterns in anomalously dry years.
 
 ![som_node_frequencies](images/som_node_frequencies.png)
 > Figure 23. Frequency of SOM nodes classified in dataset.
