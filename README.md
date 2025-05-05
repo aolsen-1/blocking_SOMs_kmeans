@@ -12,6 +12,7 @@ You need to run this repository on a Google Colab environment. To run this repos
   - cartopy
   - pandas
   - scipy.ndimage
+  - pickle
   - matplotlib.pyplot
   - cartopy.feature
   - google.colab
