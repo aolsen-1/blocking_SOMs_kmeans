@@ -313,7 +313,7 @@ Woollings, T., D. Barriopedro, J. Methven, S.-W. Son, O. Martius, B. Harvey, J. 
 
 # Requirements Document
 
-All unit tests for SOM model python notebook can be accessed from the req_testing.py script.
+All unit tests for SOM and kmeans models will be tested at the end of the SOM_kmeans_blocking.ipynb.
 
 We identified the following requirements for this project:
 
